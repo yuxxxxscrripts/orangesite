@@ -1,0 +1,7 @@
+{
+  "name": "orange-counter",
+  "version": "1.0.0",
+  "description": "Orange External secure user counter",
+  "main": "api/users.js",
+  "dependencies": {}
+}
