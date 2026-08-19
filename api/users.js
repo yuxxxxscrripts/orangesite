@@ -1,82 +1,8 @@
-// api/users.js - Using your API_SECRET environment variable
+// api/users.js - Ultra simple counter
 
-const crypto = require('crypto');
+let count = 0;
+let lastUpdate = Date.now();
 
-// ============================================
-// READ SECRET FROM ENVIRONMENT VARIABLES
-// ============================================
-const SECRET = process.env.API_SECRET;
-
-// Check if secret exists (fail safe)
-if (!SECRET) {
-    console.error('WARNING: API_SECRET not set! Using default (INSECURE)');
-}
-
-const CONFIG = {
-    SEED: SECRET || 'DEV_SECRET_DO_NOT_USE',
-    HEARTBEAT_TIMEOUT: 60000, // 1 minute
-    MAX_USERS: 10000,
-    RATE_LIMIT: {
-        WINDOW: 60000,
-        MAX_REQUESTS: 10
-    }
-};
-
-// ============================================
-// IN-MEMORY STORAGE
-// ============================================
-let users = [];
-let rateLimit = new Map();
-
-// ============================================
-// TOKEN GENERATION & VERIFICATION
-// ============================================
-function generateToken(username, hardwareId, timestamp) {
-    const data = username + hardwareId + timestamp;
-    return crypto.createHmac('sha256', CONFIG.SEED)
-        .update(data)
-        .digest('hex');
-}
-
-function verifyToken(username, hardwareId, timestamp, token) {
-    const expected = generateToken(username, hardwareId, timestamp);
-    if (expected !== token) return false;
-    
-    const requestTime = parseInt(timestamp);
-    const now = Date.now();
-    return Math.abs(now - requestTime) < 300000; // 5 minutes
-}
-
-// ============================================
-// RATE LIMITING
-// ============================================
-function checkRateLimit(ip) {
-    const now = Date.now();
-    const window = CONFIG.RATE_LIMIT.WINDOW;
-    const max = CONFIG.RATE_LIMIT.MAX_REQUESTS;
-    
-    if (!rateLimit.has(ip)) {
-        rateLimit.set(ip, { count: 1, firstRequest: now });
-        return true;
-    }
-    
-    const data = rateLimit.get(ip);
-    if (now - data.firstRequest > window) {
-        rateLimit.set(ip, { count: 1, firstRequest: now });
-        return true;
-    }
-    
-    if (data.count >= max) {
-        return false;
-    }
-    
-    data.count++;
-    return true;
-}
-
-// ============================================
-// MAIN HANDLER
-// ============================================
 export default function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -88,84 +14,28 @@ export default function handler(req, res) {
         return;
     }
 
-    // Rate limiting
-    const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
-    if (!checkRateLimit(clientIP)) {
-        return res.status(429).json({ 
-            success: false, 
-            error: 'Rate limit exceeded' 
-        });
-    }
-
     const now = Date.now();
-    users = users.filter(u => (now - u.lastHeartbeat) < CONFIG.HEARTBEAT_TIMEOUT);
+    
+    // Reset count every 5 minutes if no updates
+    if (now - lastUpdate > 300000) { // 5 minutes
+        count = 0;
+    }
     
     if (req.method === 'POST') {
-        // ============================================
-        // VERIFY REQUEST USING THE SECRET
-        // ============================================
-        const { username, hardwareId, timestamp, token, robloxUser, device } = req.body || {};
-        
-        if (!username || !hardwareId || !timestamp || !token) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Missing required fields' 
-            });
-        }
-        
-        // VERIFY TOKEN using the secret!
-        if (!verifyToken(username, hardwareId, timestamp, token)) {
-            return res.status(401).json({ 
-                success: false, 
-                error: 'Invalid token' 
-            });
-        }
-        
-        // ============================================
-        // UPDATE USER (only if token is valid)
-        // ============================================
-        const existing = users.find(u => u.hardwareId === hardwareId);
-        if (existing) {
-            existing.lastHeartbeat = now;
-            existing.username = username;
-            existing.robloxUser = robloxUser || existing.robloxUser;
-            existing.device = device || existing.device;
-        } else {
-            if (users.length >= CONFIG.MAX_USERS) {
-                users.sort((a, b) => a.lastHeartbeat - b.lastHeartbeat);
-                users.shift();
-            }
-            
-            users.push({
-                username,
-                hardwareId,
-                robloxUser: robloxUser || 'Unknown',
-                device: device || 'Unknown',
-                lastHeartbeat: now,
-                joinedAt: now
-            });
-        }
+        // Someone is using the cheat - increment count
+        count++;
+        lastUpdate = now;
         
         return res.status(200).json({ 
             success: true, 
-            count: users.length,
-            users: users.map(u => ({ 
-                username: u.username,
-                robloxUser: u.robloxUser,
-                joinedAt: u.joinedAt 
-            }))
+            count: count
         });
     } 
     else if (req.method === 'GET') {
-        // GET requests are public (no verification needed)
+        // Return current count
         return res.status(200).json({ 
             success: true, 
-            count: users.length,
-            users: users.map(u => ({ 
-                username: u.username,
-                robloxUser: u.robloxUser,
-                joinedAt: u.joinedAt 
-            }))
+            count: count
         });
     } 
     else {
