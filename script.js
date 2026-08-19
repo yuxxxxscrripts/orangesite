@@ -24,6 +24,40 @@ document.querySelectorAll(".stat-num").forEach((el) => {
   animateCount(el, target);
 });
 
+// ---------- LIVE USER COUNTER (SECURE) ----------
+async function updateLiveUsers() {
+    try {
+        // Your Vercel API URL (public read-only endpoint)
+        const response = await fetch('https://your-project.vercel.app/api/users');
+        const data = await response.json();
+        
+        if (data && data.count !== undefined) {
+            const el = document.getElementById('liveUsers');
+            if (el) {
+                animateCount(el, data.count, 1000);
+            }
+            
+            // Update online users list
+            const usersList = document.getElementById('onlineUsers');
+            if (usersList && data.users) {
+                if (data.users.length > 0) {
+                    usersList.innerHTML = data.users.map(u => 
+                        `<span class="online-user">${u.username}</span>`
+                    ).join(' ');
+                } else {
+                    usersList.innerHTML = `<span class="online-user" style="color: var(--text-faint);">No users online</span>`;
+                }
+            }
+        }
+    } catch (error) {
+        console.log('Counter unavailable');
+    }
+}
+
+// Update every 15 seconds
+setInterval(updateLiveUsers, 15000);
+updateLiveUsers();
+
 // ---------- update feed ----------
 const logEntries = [
   { tag: "patch", label: "PATCH", text: "Compatibility patch shipped for today's Roblox client update." },
