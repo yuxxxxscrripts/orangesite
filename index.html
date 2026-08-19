@@ -21,7 +21,6 @@
   </div>
   <div class="nav-links">
     <a href="#features">Features</a>
-    <a href="#feed">Updates</a>
     <a href="#faq">FAQ</a>
   </div>
   <a href="#download" class="nav-cta">Get Orange</a>
@@ -38,7 +37,6 @@
     <p class="hero-sub">A Roblox external built to keep up. Fast script injection, a clean UI, and a build that ships changes the same day Roblox ships theirs, all for free, forever.</p>
     <div class="hero-actions">
       <a href="#download" class="btn btn-primary">Download Orange</a>
-      <a href="#feed" class="btn btn-ghost">See what's new</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -66,7 +64,7 @@
     <div class="feature-card">
       <div class="feature-icon icon-loop"></div>
       <h3>Patched same-day</h3>
-      <p>When Roblox pushes an update, Orange usually isn't far behind. Check the feed below for instant compatibility.</p>
+      <p>When Roblox pushes an update, Orange usually isn't far behind, keeping you compatible without the wait.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon icon-shield"></div>
@@ -96,38 +94,6 @@
   </div>
 </section>
 
-<section class="section feed-section" id="feed">
-  <div class="section-head">
-    <p class="eyebrow">LIVE</p>
-    <h2>Update feed</h2>
-    <p class="section-sub">Orange ships fast. This is the same log the client checks on launch.</p>
-  </div>
-  <div class="terminal">
-    <div class="terminal-bar">
-      <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
-      <span class="terminal-title">orange_updates.log</span>
-      <span class="terminal-status"><span class="pulse"></span>watching for patches</span>
-    </div>
-    <div class="terminal-body" id="terminal-body">
-      <div class="log-line">
-        <span class="log-time">--</span>
-        <span class="log-tag tag-patch">PATCH</span>
-        <span class="log-text">Placeholder entry</span>
-      </div>
-      <div class="log-line">
-        <span class="log-time">--</span>
-        <span class="log-tag tag-new">NEW</span>
-        <span class="log-text">Placeholder entry</span>
-      </div>
-      <div class="log-line">
-        <span class="log-time">--</span>
-        <span class="log-tag tag-fix">FIX</span>
-        <span class="log-text">Placeholder entry</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="section download" id="download">
   <div class="download-card">
     <div class="download-art"><span class="o-mark small" aria-hidden="true"><img src="orange.png" alt=""></span></div>
@@ -152,30 +118,50 @@
     <h2>Before you download</h2>
   </div>
   <div class="faq-list">
-    <details class="faq-item" open>
-      <summary>Is Orange really free?</summary>
+    <div class="faq-item open">
+      <button class="faq-summary" type="button">
+        <span>Is Orange really free?</span>
+        <span class="faq-icon"></span>
+      </button>
       <div class="faq-content">
-        <p>Yes. No key system, no premium tier, no hidden paywall. The full client is free.</p>
+        <div class="faq-content-inner">
+          <p>Yes. No key system, no premium tier, no hidden paywall. The full client is free.</p>
+        </div>
       </div>
-    </details>
-    <details class="faq-item">
-      <summary>How often does it update?</summary>
+    </div>
+    <div class="faq-item">
+      <button class="faq-summary" type="button">
+        <span>How often does it update?</span>
+        <span class="faq-icon"></span>
+      </button>
       <div class="faq-content">
-        <p>Whenever Roblox pushes a client update that breaks compatibility, the team pushes a patch, usually within hours, tracked openly in the update feed above.</p>
+        <div class="faq-content-inner">
+          <p>Whenever Roblox pushes a client update that breaks compatibility, the team pushes a patch, usually within hours.</p>
+        </div>
       </div>
-    </details>
-    <details class="faq-item">
-      <summary>Will using an external get my account banned?</summary>
+    </div>
+    <div class="faq-item">
+      <button class="faq-summary" type="button">
+        <span>Will using an external get my account banned?</span>
+        <span class="faq-icon"></span>
+      </button>
       <div class="faq-content">
-        <p>Using any external is against Roblox's Terms of Service and carries a real risk of account action. Use an alt account and understand the risk before you run anything.</p>
+        <div class="faq-content-inner">
+          <p>Using any external is against Roblox's Terms of Service and carries a real risk of account action. Use an alt account and understand the risk before you run anything.</p>
+        </div>
       </div>
-    </details>
-    <details class="faq-item">
-      <summary>Where do I get support?</summary>
+    </div>
+    <div class="faq-item">
+      <button class="faq-summary" type="button">
+        <span>Where do I get support?</span>
+        <span class="faq-icon"></span>
+      </button>
       <div class="faq-content">
-        <p>Join the community server linked in the footer, that's where patch notes, bug reports, and script requests all happen.</p>
+        <div class="faq-content-inner">
+          <p>Join the community server linked in the footer, that's where patch notes, bug reports, and script requests all happen.</p>
+        </div>
       </div>
-    </details>
+    </div>
   </div>
 </section>
 

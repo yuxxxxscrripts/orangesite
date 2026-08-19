@@ -99,7 +99,7 @@ if (heroArt && heroImg) {
 }
 
 const revealTargets = document.querySelectorAll(
-  ".feature-card, .faq-item, .download-card, .terminal, .section-head"
+  ".feature-card, .faq-item, .download-card, .section-head"
 );
 revealTargets.forEach((el) => el.classList.add("reveal"));
 
@@ -115,6 +115,45 @@ const revealObserver = new IntersectionObserver(
   { threshold: 0.1 }
 );
 revealTargets.forEach((el) => revealObserver.observe(el));
+
+document.querySelectorAll(".faq-item").forEach((item) => {
+  const summary = item.querySelector(".faq-summary");
+  const content = item.querySelector(".faq-content");
+  const inner = item.querySelector(".faq-content-inner");
+
+  if (item.classList.contains("open")) {
+    content.style.height = inner.offsetHeight + "px";
+  }
+
+  summary.addEventListener("click", () => {
+    const isOpen = item.classList.contains("open");
+
+    if (isOpen) {
+      content.style.height = inner.offsetHeight + "px";
+      requestAnimationFrame(() => {
+        content.style.height = "0px";
+      });
+      item.classList.remove("open");
+    } else {
+      content.style.height = inner.offsetHeight + "px";
+      item.classList.add("open");
+    }
+  });
+
+  content.addEventListener("transitionend", () => {
+    if (item.classList.contains("open")) {
+      content.style.height = "auto";
+    }
+  });
+});
+
+window.addEventListener("resize", () => {
+  document.querySelectorAll(".faq-item.open").forEach((item) => {
+    const content = item.querySelector(".faq-content");
+    const inner = item.querySelector(".faq-content-inner");
+    content.style.height = inner.offsetHeight + "px";
+  });
+});
 
 document.querySelectorAll(".feature-card").forEach((card) => {
   card.addEventListener("mousemove", (e) => {

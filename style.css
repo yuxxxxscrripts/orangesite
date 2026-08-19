@@ -248,51 +248,6 @@ a { color: inherit; text-decoration: none; }
 .feature-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
 @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
 
-/* Terminal */
-.terminal {
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  background: var(--bg-raised); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-.terminal-bar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 20px; background: #0f1218; border-bottom: 1px solid var(--line);
-}
-.dot { width: 12px; height: 12px; border-radius: 50%; }
-.dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
-.terminal-title {
-  font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-faint);
-  margin-left: 12px;
-}
-.terminal-status {
-  margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; color: var(--orange);
-  display: flex; align-items: center; gap: 8px;
-}
-.pulse {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
-  box-shadow: 0 0 10px var(--orange);
-  animation: pulse 1.5s ease-in-out infinite;
-}
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-.terminal-body {
-  padding: 24px; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.9;
-  max-height: 340px; overflow-y: auto;
-}
-.log-line {
-  opacity: 0; transform: translateY(8px);
-  animation: logIn 0.4s ease forwards;
-  white-space: pre-wrap;
-}
-.log-time { color: var(--text-faint); margin-right: 15px; }
-.log-tag {
-  display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 2px 10px; border-radius: 4px;
-  margin-right: 12px; letter-spacing: 0.05em;
-}
-.tag-patch { background: rgba(255, 122, 46, 0.15); color: var(--orange); }
-.tag-new { background: rgba(143, 174, 92, 0.15); color: var(--moss); }
-.tag-fix { background: rgba(136, 146, 166, 0.15); color: var(--text-dim); }
-.log-text { color: var(--text); }
-@keyframes logIn { to { opacity: 1; transform: translateY(0); } }
-
 /* Download Card */
 .download-card {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 40px;
@@ -325,37 +280,39 @@ a { color: inherit; text-decoration: none; }
   .download-actions { text-align: left; }
 }
 
-/* FAQ Smooth Drop-Down Animation */
+/* FAQ Smooth Drop-Down Animation (JS-driven height) */
 .faq-list { display: flex; flex-direction: column; gap: 12px; }
 .faq-item {
-  background: var(--bg-card); padding: 20px 28px; border-radius: 12px;
+  background: var(--bg-card); border-radius: 12px;
   border: 1px solid var(--line);
-}
-.faq-item summary {
-  cursor: pointer; font-weight: 600; font-size: 1.05rem; list-style: none;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.faq-item summary::-webkit-details-marker { display: none; }
-.faq-item summary::after {
-  content: "+"; color: var(--orange); font-size: 1.5rem; font-weight: 300;
-  margin-left: 16px; transition: transform 0.3s ease;
-}
-.faq-item[open] summary::after { transform: rotate(45deg); }
-
-/* Actual smooth height animation */
-.faq-content {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s ease-out, opacity 0.3s ease, margin 0.3s ease;
-  opacity: 0;
-}
-.faq-content > p {
   overflow: hidden;
 }
-.faq-item[open] .faq-content {
-  grid-template-rows: 1fr;
-  opacity: 1;
-  margin-top: 16px;
+.faq-summary {
+  cursor: pointer; font-weight: 600; font-size: 1.05rem;
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; padding: 20px 28px; background: transparent; border: none; color: var(--text);
+  font-family: inherit; text-align: left;
+}
+.faq-icon {
+  position: relative; width: 16px; height: 16px; flex-shrink: 0; margin-left: 16px;
+}
+.faq-icon::before, .faq-icon::after {
+  content: ""; position: absolute; background: var(--orange);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
+}
+.faq-icon::before { width: 16px; height: 2px; }
+.faq-icon::after { width: 2px; height: 16px; }
+.faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+
+/* height is set inline via JS to the content's natural height for a smooth transition */
+.faq-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.faq-content-inner {
+  padding: 0 28px 20px;
 }
 .faq-item p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; max-width: 65ch; }
 
