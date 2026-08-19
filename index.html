@@ -17,7 +17,6 @@
 
 <nav class="nav">
   <div class="nav-brand">
-    <!-- REPLACED: Use the new combined banner image -->
     <img class="brand-mark-full" src="logobanner.png" alt="Orange">
   </div>
   <div class="nav-links">
@@ -32,7 +31,6 @@
   <div class="hero-text">
     <p class="eyebrow">FREE &middot; ALWAYS UPDATING &middot; NO KEY SYSTEM</p>
     
-    <!-- REPLACED: Removed the complex icon+text, replaced with single image -->
     <h1 class="hero-title">
       <img class="hero-logo-banner" src="logobanner.png" alt="Orange">
     </h1>
@@ -43,14 +41,19 @@
       <a href="#feed" class="btn btn-ghost">See what's new</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num" data-target="0">0</span><span class="stat-label">Active users</span></div>
-      <div class="stat"><span class="stat-num" data-target="0">0</span><span class="stat-label">Scripts run today</span></div>
+      <div class="stat">
+        <span class="stat-num" id="liveUsers" data-target="0">0</span>
+        <span class="stat-label">Active users</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="0">0</span>
+        <span class="stat-label">Scripts run today</span>
+      </div>
     </div>
   </div>
   <div class="hero-art">
     <div class="hero-glow"></div>
     <div class="hero-fruit" id="hero-img" aria-hidden="true">
-      <!-- Kept the big orange for the right side -->
       <img src="orange.png" alt="" class="fruit-svg">
     </div>
   </div>
