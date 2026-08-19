@@ -1,15 +1,19 @@
-// api/users.js - Complete secure backend
-// The secret seed is stored in Vercel environment variables, NOT in code!
+// api/users.js - Using your API_SECRET environment variable
 
 const crypto = require('crypto');
 
 // ============================================
 // READ SECRET FROM ENVIRONMENT VARIABLES
 // ============================================
+const SECRET = process.env.API_SECRET;
+
+// Check if secret exists (fail safe)
+if (!SECRET) {
+    console.error('WARNING: API_SECRET not set! Using default (INSECURE)');
+}
+
 const CONFIG = {
-    // This comes from Vercel environment variables - NEVER in source code!
-    SEED: process.env.API_SECRET || 'CHANGE_ME_IN_VERCEL_DASHBOARD',
-    
+    SEED: SECRET || 'DEV_SECRET_DO_NOT_USE',
     HEARTBEAT_TIMEOUT: 60000, // 1 minute
     MAX_USERS: 10000,
     RATE_LIMIT: {
@@ -25,7 +29,7 @@ let users = [];
 let rateLimit = new Map();
 
 // ============================================
-// TOKEN VERIFICATION
+// TOKEN GENERATION & VERIFICATION
 // ============================================
 function generateToken(username, hardwareId, timestamp) {
     const data = username + hardwareId + timestamp;
@@ -98,7 +102,7 @@ export default function handler(req, res) {
     
     if (req.method === 'POST') {
         // ============================================
-        // VERIFY REQUEST
+        // VERIFY REQUEST USING THE SECRET
         // ============================================
         const { username, hardwareId, timestamp, token, robloxUser, device } = req.body || {};
         
@@ -109,6 +113,7 @@ export default function handler(req, res) {
             });
         }
         
+        // VERIFY TOKEN using the secret!
         if (!verifyToken(username, hardwareId, timestamp, token)) {
             return res.status(401).json({ 
                 success: false, 
@@ -117,7 +122,7 @@ export default function handler(req, res) {
         }
         
         // ============================================
-        // UPDATE USER
+        // UPDATE USER (only if token is valid)
         // ============================================
         const existing = users.find(u => u.hardwareId === hardwareId);
         if (existing) {
@@ -152,6 +157,7 @@ export default function handler(req, res) {
         });
     } 
     else if (req.method === 'GET') {
+        // GET requests are public (no verification needed)
         return res.status(200).json({ 
             success: true, 
             count: users.length,
