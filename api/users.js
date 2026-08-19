@@ -1,7 +1,7 @@
-// api/users.js - Ultra simple counter
+// api/users.js - Tracks unique users by hardware ID
 
-let count = 0;
-let lastUpdate = Date.now();
+let users = new Map(); // hardwareId -> { lastHeartbeat, username }
+const HEARTBEAT_TIMEOUT = 60000; // 1 minute
 
 export default function handler(req, res) {
     // Enable CORS
@@ -16,26 +16,44 @@ export default function handler(req, res) {
 
     const now = Date.now();
     
-    // Reset count every 5 minutes if no updates
-    if (now - lastUpdate > 300000) { // 5 minutes
-        count = 0;
+    // Clean old users (older than 1 minute)
+    for (const [id, data] of users) {
+        if (now - data.lastHeartbeat > HEARTBEAT_TIMEOUT) {
+            users.delete(id);
+        }
     }
     
     if (req.method === 'POST') {
-        // Someone is using the cheat - increment count
-        count++;
-        lastUpdate = now;
+        const { hardwareId } = req.body || {};
+        
+        if (!hardwareId) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Missing hardwareId' 
+            });
+        }
+        
+        // Update or add user
+        if (users.has(hardwareId)) {
+            // Existing user - just update heartbeat
+            users.get(hardwareId).lastHeartbeat = now;
+        } else {
+            // New user - add to map
+            users.set(hardwareId, {
+                lastHeartbeat: now,
+                joinedAt: now
+            });
+        }
         
         return res.status(200).json({ 
             success: true, 
-            count: count
+            count: users.size
         });
     } 
     else if (req.method === 'GET') {
-        // Return current count
         return res.status(200).json({ 
             success: true, 
-            count: count
+            count: users.size
         });
     } 
     else {
