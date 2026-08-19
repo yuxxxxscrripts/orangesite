@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orange - Free Roblox External</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="orange.png">
+</head>
+<body>
+
+<div class="cursor-glow" id="cursor-glow"></div>
+<div class="bg-grid"></div>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <!-- REPLACED: Use the new combined banner image -->
+    <img class="brand-mark-full" src="logobanner.png" alt="Orange">
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#feed">Updates</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#download" class="nav-cta">Get Orange</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">FREE &middot; ALWAYS UPDATING &middot; NO KEY SYSTEM</p>
+    
+    <!-- REPLACED: Removed the complex icon+text, replaced with single image -->
+    <h1 class="hero-title">
+      <img class="hero-logo-banner" src="logobanner.png" alt="Orange">
+    </h1>
+    
+    <p class="hero-sub">A Roblox external built to keep up. Fast script injection, a clean UI, and a build that ships changes the same day Roblox ships theirs, all for free, forever.</p>
+    <div class="hero-actions">
+      <a href="#download" class="btn btn-primary">Download Orange</a>
+      <a href="#feed" class="btn btn-ghost">See what's new</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" data-target="0">0</span><span class="stat-label">Active users</span></div>
+      <div class="stat"><span class="stat-num" data-target="0">0</span><span class="stat-label">Scripts run today</span></div>
+    </div>
+  </div>
+  <div class="hero-art">
+    <div class="hero-glow"></div>
+    <div class="hero-fruit" id="hero-img" aria-hidden="true">
+      <!-- Kept the big orange for the right side -->
+      <img src="orange.png" alt="" class="fruit-svg">
+    </div>
+  </div>
+</header>
+
+<div class="peel-divider" aria-hidden="true"></div>
+
+<section class="section" id="features">
+  <div class="section-head">
+    <p class="eyebrow">WHY ORANGE</p>
+    <h2>Built like it's still day one</h2>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon icon-loop"></div>
+      <h3>Patched same-day</h3>
+      <p>When Roblox pushes an update, Orange usually isn't far behind. Check the feed below for instant compatibility.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-shield"></div>
+      <h3>No key system</h3>
+      <p>Download, open, run. No linkvertise, no ad walls, no key to hunt down every 24 hours.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-ui"></div>
+      <h3>Clean UI</h3>
+      <p>A simple, good-looking interface that doesn't fight you for screen space. With very customizable interface.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-bolt"></div>
+      <h3>Lightweight &amp; Fast</h3>
+      <p>Built to be resource-friendly. It runs smoothly alongside Roblox without dragging down your system performance.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-cloud"></div>
+      <h3>Community Driven</h3>
+      <p>Constantly updated based on user feedback. If something breaks, the community reports it and we fix it fast.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-heart"></div>
+      <h3>Free. Actually free.</h3>
+      <p>No tiers, no "premium" external hiding behind a paywall. Everyone gets the same fully-featured build.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section feed-section" id="feed">
+  <div class="section-head">
+    <p class="eyebrow">LIVE</p>
+    <h2>Update feed</h2>
+    <p class="section-sub">Orange ships fast. This is the same log the client checks on launch.</p>
+  </div>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+      <span class="terminal-title">orange_updates.log</span>
+      <span class="terminal-status"><span class="pulse"></span>watching for patches</span>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+      <!-- entries injected by script.js -->
+    </div>
+  </div>
+</section>
+
+<section class="section download" id="download">
+  <div class="download-card">
+    <div class="download-art"><span class="o-mark small" aria-hidden="true"><img src="orange.png" alt=""></span></div>
+    <div class="download-copy">
+      <p class="eyebrow">GET STARTED</p>
+      <h2>Download Orange</h2>
+      <p>Free external, updated constantly, no strings attached. Grab the latest build below.</p>
+    </div>
+    <div class="download-actions">
+      <button class="btn btn-primary btn-lg" id="download-btn">
+        <span class="btn-text">Download for Windows</span>
+        <span class="btn-loader"></span>
+      </button>
+      <p class="download-note">Compatible with the current Roblox client build. Always run a fresh download after a Roblox update.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="section-head">
+    <p class="eyebrow">QUESTIONS</p>
+    <h2>Before you download</h2>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item" open>
+      <summary>Is Orange really free?</summary>
+      <div class="faq-content">
+        <p>Yes. No key system, no premium tier, no hidden paywall. The full client is free.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary>How often does it update?</summary>
+      <div class="faq-content">
+        <p>Whenever Roblox pushes a client update that breaks compatibility, the team pushes a patch, usually within hours, tracked openly in the update feed above.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary>Will using an external get my account banned?</summary>
+      <div class="faq-content">
+        <p>Using any external is against Roblox's Terms of Service and carries a real risk of account action. Use an alt account and understand the risk before you run anything.</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary>Where do I get support?</summary>
+      <div class="faq-content">
+        <p>Join the community server linked in the footer, that's where patch notes, bug reports, and script requests all happen.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand">
+    <img class="brand-mark-full small" src="logobanner.png" alt="Orange">
+  </div>
+  <p class="footer-note">Orange is an independent project and is not affiliated with or endorsed by Roblox Corporation.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
