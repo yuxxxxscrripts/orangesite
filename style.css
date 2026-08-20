@@ -259,6 +259,7 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255, 122, 46, 0.08);
   display: flex; align-items: center; justify-content: center;
 }
+.download-art img { width: 48px; height: 48px; object-fit: contain; }
 .download-copy h2 { font-weight: 800; font-size: 2.2rem; margin: 6px 0 12px; letter-spacing: -0.02em; }
 .download-copy p { color: var(--text-dim); max-width: 44ch; }
 .download-actions { text-align: right; }
