@@ -167,28 +167,13 @@ setInterval(() => {
 const downloadBtn = document.getElementById("download-btn");
 if (downloadBtn) {
   downloadBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    
     // Add loading state
     downloadBtn.classList.add('loading');
     
-    // Simulate network request
+    // Remove loading after a moment (download will proceed via href)
     setTimeout(() => {
       downloadBtn.classList.remove('loading');
-      downloadBtn.textContent = "Downloaded ✓";
-      downloadBtn.style.background = "#28c840"; // Green success color
-      downloadBtn.style.boxShadow = "0 4px 20px rgba(40, 200, 64, 0.3)";
-      
-      // Reset after 3 seconds
-      setTimeout(() => {
-        downloadBtn.textContent = "Download for Windows";
-        downloadBtn.style.background = "";
-        downloadBtn.style.boxShadow = "";
-      }, 3000);
-      
-      // Alert (You can replace this with actual link logic)
-      // alert("Hook this button up to your actual file host / CDN link.");
-    }, 1800); // 1.8 second delay
+    }, 1200);
   });
 }
 
@@ -268,4 +253,51 @@ document.querySelectorAll(".feature-card").forEach((card) => {
   card.addEventListener("mouseleave", () => {
     card.style.transform = "";
   });
+});
+
+// ---------- FIXED FAQ: toggle + smooth animation ----------
+document.querySelectorAll('.faq-summary').forEach((btn) => {
+  btn.addEventListener('click', function(e) {
+    const item = this.closest('.faq-item');
+    if (!item) return;
+    const content = item.querySelector('.faq-content');
+    const isOpen = item.classList.contains('open');
+
+    // close all others
+    document.querySelectorAll('.faq-item').forEach((other) => {
+      if (other !== item) {
+        other.classList.remove('open');
+        const otherContent = other.querySelector('.faq-content');
+        if (otherContent) otherContent.style.height = '0px';
+      }
+    });
+
+    if (isOpen) {
+      // close this one
+      item.classList.remove('open');
+      if (content) content.style.height = '0px';
+    } else {
+      // open this one
+      item.classList.add('open');
+      if (content) {
+        const inner = content.querySelector('.faq-content-inner');
+        if (inner) {
+          content.style.height = inner.scrollHeight + 'px';
+        }
+      }
+    }
+  });
+});
+
+// init open state for .faq-item.open
+document.querySelectorAll('.faq-item.open').forEach((item) => {
+  const content = item.querySelector('.faq-content');
+  if (content) {
+    const inner = content.querySelector('.faq-content-inner');
+    if (inner) {
+      requestAnimationFrame(() => {
+        content.style.height = inner.scrollHeight + 'px';
+      });
+    }
+  }
 });
